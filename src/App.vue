@@ -24,7 +24,7 @@
               <button 
                 class="destroy"
                 @click="removeTodo(todo)">
-                <b-icon icon="dash-circle-fill"></b-icon>
+                <b-icon icon="dash-circle"></b-icon>
               </button>
             </div>
           </div>
