@@ -84,7 +84,6 @@ export default {
       newTodo: '',
       todos:[],
       editedTodo: null,
-      dbclicked: false,
       datePicker: {
         startDate: new Date(),
         endDate: new Date
@@ -109,7 +108,6 @@ export default {
     },
     editTodo(todo){
       this.editedTodo = todo;
-      this.dbclicked = true
       this.isGoingToEdit = !this.isGoingToEdit
       if(!this.isGoingToEdit){
         console.log(this.todos)
