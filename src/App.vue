@@ -1,7 +1,7 @@
 <template>
   <div id="app">
+    <div class="wrapper-list">
     <h1 class="text-center">Lista de tareas</h1>
-    <div class="wrapper">
     <header>
       <input class="new-todo"
       v-model="newTodo"
@@ -37,19 +37,50 @@
       </ul>
     </section>
     </div>
+    <section class="add-edit-section">
+        <h2>Agrega una tarea</h2>
+        <div>
+          <input class="new-todo"
+            v-model="newTodo"
+            placeholder="¿Que necesitas hacer?"
+            @keyup.enter="addTodo()">
+        </div>
+        <div>
+          <date-range-picker
+            v-model="datePicker"
+            :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
+            :ranges="false"
+            opens="center"
+            :single-date-picker="true">
+          </date-range-picker>
+        </div>
+        <button @click="addTodo()">Agregar</button>
+    </section>
   </div>
 </template>
 
 <script>
 const STORAGE_KEY = 'todo-storage'
+import DateRangePicker from 'vue2-daterange-picker'
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+// import moment from 'moment'
+
 export default {
   name: 'App',
+  components:{
+    DateRangePicker
+  },
   data(){
     return{
       newTodo: '',
       todos:[],
       editedTodo: null,
-      dbclicked: false
+      dbclicked: false,
+      datePicker: {
+        startDate: new Date(),
+        endDate: new Date
+      },
+      daysOfWeekSpanish: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
     }
   },
   mounted(){
@@ -89,16 +120,16 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 #app{
   min-height: 100vh;
+  display: flex;
   input{
     padding: 0 16px;
   }
-  .wrapper{
+  .wrapper-list{
     border: 1px solid #000;
     width: 100%;
     @media(min-width: 992px){
       width: 600px;
     }
-    margin: auto;
     header{
       input{
         width: 100%;
