@@ -15,7 +15,7 @@
           :key="todo.id"
           :class="{editing: todo == editedTodo && isGoingToEdit}">
           <div class="task-wrapper">
-            <input class="toggle" type="checkbox" v-model="todo.completed">
+            <input class="toggle" type="checkbox" v-model="todo.completed" @change="checkboxOnChange()">
             <div class="text-wrapper">
               <label>{{ todo.title }}</label>
               <span> {{formatToDatePicker(todo.date.startDate)}} </span>
@@ -110,7 +110,6 @@ export default {
       this.editedTodo = todo;
       this.isGoingToEdit = !this.isGoingToEdit
       if(!this.isGoingToEdit){
-        console.log(this.todos)
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
         console.log("guardado")
       }
@@ -122,6 +121,9 @@ export default {
     formatToDatePicker(date) {
       return moment(date).format('DD/MM/YYYY')
     },
+    checkboxOnChange(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+    }
   }
 }
 </script>
