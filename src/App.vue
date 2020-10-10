@@ -16,7 +16,10 @@
           :class="{editing: todo == editedTodo}">
           <div class="task-wrapper">
             <input class="toggle" type="checkbox" v-model="todo.completed">
-            <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
+            <div class="text-wrapper">
+              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
+              <span> {{todo.date}} </span>
+            </div>
             <div class="buttons-wrapper">
               <button class="edit" @click="editTodo(todo)">
                 <b-icon icon="pencil-square"></b-icon>
@@ -63,7 +66,7 @@
 const STORAGE_KEY = 'todo-storage'
 import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-// import moment from 'moment'
+import moment from 'moment'
 
 export default {
   name: 'App',
@@ -89,7 +92,8 @@ export default {
   },
   methods: {
     addTodo(){
-      this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length})
+      let expirationDate = moment(this.datePicker.startDate).format('DD/MM/YYYY')
+      this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: expirationDate})
       this.newTodo = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
     },
@@ -148,10 +152,19 @@ export default {
           .toggle{
             margin: auto 16px auto 0;
           }
-          label{
-            font-family: 'Roboto';
-            font-size: 18px;
-            margin: 0;
+          .text-wrapper{
+            display: flex;
+            flex-direction: column;
+            label{
+              font-family: 'Roboto';
+              font-size: 24px;
+              margin: 0;
+            }
+            span{
+              font-family: 'Roboto';
+              font-size: 16px;
+              color: #828282;
+            }
           }
           .buttons-wrapper{
             margin-left: auto;
