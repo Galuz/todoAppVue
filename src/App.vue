@@ -13,12 +13,12 @@
         <li 
           v-for="todo in todos"
           :key="todo.id"
-          :class="{editing: todo == editedTodo}">
+          :class="{editing: todo == editedTodo && isGoingToEdit}">
           <div class="task-wrapper">
             <input class="toggle" type="checkbox" v-model="todo.completed">
             <div class="text-wrapper">
-              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-              <span> {{todo.date}} </span>
+              <label>{{ todo.title }}</label>
+              <span> {{todo.date.startDate}} </span>
             </div>
             <div class="buttons-wrapper">
               <button class="edit" @click="editTodo(todo)">
@@ -31,11 +31,17 @@
               </button>
             </div>
           </div>
-          <input class="update" type="text"
-            v-model="todo.title"
-            @blur="doneEdit(todo)"
-            @keyup.enter="doneEdit(todo)"
-            >
+          <input class="update-title" type="text"
+            v-model="todo.title">
+          <date-range-picker
+            class="update-date"
+            v-model="todo.date"
+            :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
+            :ranges="false"
+            opens="center"
+            :single-date-picker="true"
+            @update="updateDate(todo.id)">
+          </date-range-picker>
         </li>
       </ul>
     </section>
@@ -84,16 +90,16 @@ export default {
         endDate: new Date
       },
       daysOfWeekSpanish: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+      isGoingToEdit: false
     }
   },
   mounted(){
-    console.log("simon")
     this.todos = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')
   },
   methods: {
     addTodo(){
-      let expirationDate = moment(this.datePicker.startDate).format('DD/MM/YYYY')
-      this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: expirationDate})
+      let expirationDate = moment(this.datePicker.startDate).format('MM/DD/YYYY')
+      this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: {startDate: expirationDate, endDate: expirationDate}})
       this.newTodo = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
     },
@@ -104,17 +110,16 @@ export default {
     editTodo(todo){
       this.editedTodo = todo;
       this.dbclicked = true
+      this.isGoingToEdit = !this.isGoingToEdit
+      if(!this.isGoingToEdit){
+        console.log(this.todos)
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+        console.log("guardado")
+      }
     },
-    doneEdit(todo){
-      if(!this.editedTodo){
-        return
-      }
-      this.editedTodo = null
-      todo.title = todo.title.trim()
-      if(!todo.title){
-        this.removeTodo(todo)
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+    updateDate(id){
+      this.todos[id].date.startDate = moment(this.todos[id].date.startDate).format('MM/DD/YYYY')
+      this.todos[id].date.endDate = moment(this.todos[id].date.endDate).format('MM/DD/YYYY')
     }
   }
 }
@@ -176,15 +181,24 @@ export default {
             }
           }
         }
-        .update{
+        .update-title{
           display: none;
           position: absolute;
           top: 6px;
           left: 28px;
         }
+        .update-date{
+          display: none;
+          position: absolute;
+          bottom: 4px;
+          left: 28px;
+        }
         &.editing{
           input{
             display: block;
+          }
+          .update-date{
+            display: inline-block;
           }
         }
         &:last-child{
