@@ -18,7 +18,7 @@
             <input class="toggle" type="checkbox" v-model="todo.completed">
             <div class="text-wrapper">
               <label>{{ todo.title }}</label>
-              <span> {{todo.date.startDate}} </span>
+              <span> {{formatToDatePicker(todo.date.startDate)}} </span>
             </div>
             <div class="buttons-wrapper">
               <button class="edit" @click="editTodo(todo)">
@@ -38,7 +38,7 @@
             v-model="todo.date"
             :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
             :ranges="false"
-            opens="center"
+            opens="right"
             :single-date-picker="true"
             @update="updateDate(todo.id)">
           </date-range-picker>
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     addTodo(){
-      let expirationDate = moment(this.datePicker.startDate).format('MM/DD/YYYY')
+      let expirationDate = moment(this.datePicker.startDate).utc()
       this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: {startDate: expirationDate, endDate: expirationDate}})
       this.newTodo = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
@@ -118,9 +118,12 @@ export default {
       }
     },
     updateDate(id){
-      this.todos[id].date.startDate = moment(this.todos[id].date.startDate).format('MM/DD/YYYY')
-      this.todos[id].date.endDate = moment(this.todos[id].date.endDate).format('MM/DD/YYYY')
-    }
+      this.todos[id].date.startDate = moment(this.todos[id].date.startDate).utc()
+      this.todos[id].date.endDate = moment(this.todos[id].date.endDate).utc()
+    },
+    formatToDatePicker(date) {
+      return moment(date).format('DD/MM/YYYY')
+    },
   }
 }
 </script>
