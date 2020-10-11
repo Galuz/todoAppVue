@@ -18,9 +18,9 @@
     <section>
       <ul class="todo-list">
         <li 
-          v-for="todo in todos"
+          v-for="todo in filteredtodos"
           :key="todo.id"
-          :class="{editing: todo == editedTodo && isGoingToEdit}">
+          :class="{completed: todo.completed, editing: todo == editedTodo && isGoingToEdit}">
           <div class="task-wrapper">
             <input class="toggle" type="checkbox" v-model="todo.completed" @change="checkboxOnChange()">
             <div class="text-wrapper">
@@ -105,6 +105,22 @@ export default {
   mounted(){
     this.todos = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')
     this.orderDates()
+  },
+  computed: {
+    filteredtodos(){
+      if(this.filterBy === 0){
+        return this.todos
+      }else if(this.filterBy === 2){
+        return this.todos.filter(function(todo){
+          return !todo.completed
+        })
+      }
+      else{
+        return this.todos.filter(function(todo){
+          return todo.completed
+        })
+      }
+    }
   },
   methods: {
     addTodo(){
@@ -244,6 +260,9 @@ export default {
           position: absolute;
           bottom: 4px;
           left: 28px;
+        }
+        &.completed{
+          text-decoration: line-through;
         }
         &.editing{
           input{
