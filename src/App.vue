@@ -59,8 +59,7 @@
         <div>
           <input class="new-todo"
             v-model="newTodo"
-            placeholder="¿Que necesitas hacer?"
-            @keyup.enter="addTodo()">
+            placeholder="¿Que necesitas hacer?">
         </div>
         <div>
           <date-range-picker
