@@ -6,13 +6,13 @@
       <div class="tabs-filter">
         <button 
           @click="filterBy = 0"
-          :class="filterBy === 0 ? 'active' : ''">Todos</button>
+          :class="filterBy === 0 ? 'active' : ''">Todas</button>
         <button 
           @click="filterBy = 1"
-          :class="filterBy === 1 ? 'active' : ''">Completos</button>
+          :class="filterBy === 1 ? 'active' : ''">Completas</button>
         <button 
           @click="filterBy = 2"
-          :class="filterBy === 2 ? 'active' : ''">Incompletos</button>
+          :class="filterBy === 2 ? 'active' : ''">Pendientes</button>
       </div>
     </header>
     <section>
