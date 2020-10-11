@@ -3,10 +3,17 @@
     <div class="wrapper-list">
     <h1 class="text-center">Lista de tareas</h1>
     <header>
-      <input class="new-todo"
-      v-model="newTodo"
-      placeholder="¿Que necesitas hacer?"
-      @keyup.enter="addTodo()">
+      <div class="tabs-filter">
+        <button 
+          @click="filterBy = 0"
+          :class="filterBy === 0 ? 'active' : ''">Todos</button>
+        <button 
+          @click="filterBy = 1"
+          :class="filterBy === 1 ? 'active' : ''">Completos</button>
+        <button 
+          @click="filterBy = 2"
+          :class="filterBy === 2 ? 'active' : ''">Incompletos</button>
+      </div>
     </header>
     <section>
       <ul class="todo-list">
@@ -91,7 +98,8 @@ export default {
         endDate: new Date
       },
       daysOfWeekSpanish: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-      isGoingToEdit: false
+      isGoingToEdit: false,
+      filterBy: 0, 
     }
   },
   mounted(){
@@ -166,9 +174,27 @@ export default {
       width: 600px;
     }
     header{
-      input{
-        width: 100%;
-        height: 50px;
+      .tabs-filter{
+        border: 1px solid #ccc;
+        display: flex;
+        height: 35px;
+        border-radius: 4px;
+        button{
+          border: none;
+          background-color: #fff;
+          outline: none;
+          color: #000015;
+          width: calc(100% / 2);
+          border-right: 1px solid #ccc;
+          border-radius: 4px;
+          &.active{
+            background-color: #5B2AE0;
+            color: white;
+          }
+          &:last-child{
+            border-right: 0;
+          }
+        }
       }
     }
     ul{
