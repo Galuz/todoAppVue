@@ -40,6 +40,7 @@
             :ranges="false"
             opens="right"
             :single-date-picker="true"
+            :date-format="disabledDates"
             @update="updateDate(todo.id)">
           </date-range-picker>
         </li>
@@ -60,7 +61,8 @@
             :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
             :ranges="false"
             opens="center"
-            :single-date-picker="true">
+            :single-date-picker="true"
+            :date-format="disabledDates">
           </date-range-picker>
         </div>
         <button @click="addTodo()">Agregar</button>
@@ -132,7 +134,19 @@ export default {
       this.todos.sort(function(a,b){
         return new Date(a.date.startDate) - new Date(b.date.startDate);
       })
-    }
+    },
+    disabledDates(classes, date) {
+      const dd = new Date().getDate()
+      const mm = new Date().getMonth() + 1
+      const yyyy = new Date().getFullYear()
+      const today = `${yyyy}-${mm}-${dd}`
+      const getCalendarDate = moment(date.getTime()).format()
+
+      if (!classes.disabled) {
+        classes.disabled = getCalendarDate < moment(today).format()
+      }
+      return classes
+    },
   }
 }
 </script>
