@@ -54,25 +54,9 @@
       </ul>
     </section>
     </div>
-    <section class="add-edit-section">
-        <h2>Agrega una tarea</h2>
-        <div>
-          <input class="new-todo"
-            v-model="newTodo"
-            placeholder="¿Que necesitas hacer?">
-        </div>
-        <div>
-          <date-range-picker
-            v-model="datePicker"
-            :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
-            :ranges="false"
-            opens="center"
-            :single-date-picker="true"
-            :date-format="disabledDates">
-          </date-range-picker>
-        </div>
-        <button @click="addTodo()">Agregar</button>
-    </section>
+    <AddTask
+      @AddTask="updateTask($event)">
+    </AddTask>
   </div>
 </template>
 
@@ -81,11 +65,13 @@ const STORAGE_KEY = 'todo-storage'
 import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import moment from 'moment'
+import AddTask from '../src/components/AddTask'
 
 export default {
   name: 'App',
   components:{
-    DateRangePicker
+    DateRangePicker,
+    AddTask
   },
   data(){
     return{
@@ -170,6 +156,11 @@ export default {
       }
       return classes
     },
+    updateTask(task){
+      this.newTodo = task.newTodo
+      this.datePicker = task.datePicker
+      this.addTodo()
+    }
   }
 }
 </script>
