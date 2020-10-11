@@ -53,8 +53,20 @@
         </li>
       </ul>
     </section>
+    <button class="modal-trigger" v-b-modal.modal-add-task>
+      <b-icon icon="plus-circle" class="modal-trigger-icon"></b-icon>
+    </button>
     </div>
+    <!-- mobile -->
+    <b-modal id="modal-add-task" title="Agregar Tarea">
+      <AddTask
+        class="add-task"
+        @AddTask="updateTask($event)">
+      </AddTask>
+    </b-modal>
+    <!-- desktop -->
     <AddTask
+      class="add-task"
       @AddTask="updateTask($event)">
     </AddTask>
   </div>
@@ -173,6 +185,26 @@ export default {
   input{
     padding: 0 16px;
   }
+  .modal-trigger{
+    display: flex;
+    @media(min-width: 992px){
+      display: none;
+    }
+    position: absolute;
+    right: 16px;
+    bottom: 32px;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 0;
+    background-color: #2F80ED;
+    font-size: 32px;
+    color: #fff;
+    >.modal-trigger-icon{
+      margin: auto;
+    }
+  }
   .wrapper-list{
     border: 1px solid #000;
     width: 100%;
@@ -266,6 +298,12 @@ export default {
           border-bottom: 0;
         }
       }
+    }
+  }
+  .add-task{
+    display: none;
+    @media(min-width: 992px){
+      display: block;
     }
   }
 }
