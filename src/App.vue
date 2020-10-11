@@ -94,6 +94,7 @@ export default {
   },
   mounted(){
     this.todos = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')
+    this.orderDates()
   },
   methods: {
     addTodo(){
@@ -101,16 +102,19 @@ export default {
       this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: {startDate: expirationDate, endDate: expirationDate}})
       this.newTodo = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+      this.orderDates()
     },
     removeTodo(todo){
       this.todos.splice(this.todos.indexOf(todo), 1);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+      this.orderDates()
     },
     editTodo(todo){
       this.editedTodo = todo;
       this.isGoingToEdit = !this.isGoingToEdit
       if(!this.isGoingToEdit){
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+        this.orderDates()
         console.log("guardado")
       }
     },
@@ -123,6 +127,11 @@ export default {
     },
     checkboxOnChange(){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+    },
+    orderDates(){
+      this.todos.sort(function(a,b){
+        return new Date(a.date.startDate) - new Date(b.date.startDate);
+      })
     }
   }
 }
