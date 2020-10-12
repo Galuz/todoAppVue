@@ -1,75 +1,95 @@
 <template>
   <div id="app">
-    <div class="wrapper-list">
-    <h1 class="text-center">Lista de tareas</h1>
     <header>
-      <div class="tabs-filter">
-        <button 
-          @click="filterBy = 0"
-          :class="filterBy === 0 ? 'active' : ''">Todas</button>
-        <button 
-          @click="filterBy = 1"
-          :class="filterBy === 1 ? 'active' : ''">Completas</button>
-        <button 
-          @click="filterBy = 2"
-          :class="filterBy === 2 ? 'active' : ''">Pendientes</button>
-      </div>
+      <h1>Bienvenido a tu lista de tareas</h1>
     </header>
-    <section>
-      <ul class="todo-list">
-        <li 
-          v-for="todo in filteredtodos"
-          :key="todo.id"
-          :class="{completed: todo.completed, editing: todo == editedTodo && isGoingToEdit}">
-          <div class="task-wrapper">
-            <input class="toggle" type="checkbox" v-model="todo.completed" @change="checkboxOnChange()">
-            <div class="text-wrapper">
-              <label>{{ todo.title }}</label>
-              <span> {{formatToDatePicker(todo.date.startDate)}} </span>
-            </div>
-            <div class="buttons-wrapper">
-              <button class="edit" @click="editTodo(todo)">
-                <b-icon icon="pencil-square"></b-icon>
-              </button>
-              <button 
-                class="destroy"
-                @click="removeTodo(todo)">
-                <b-icon icon="dash-circle"></b-icon>
-              </button>
-            </div>
-          </div>
-          <input class="update-title" type="text"
-            v-model="todo.title">
-          <date-range-picker
-            class="update-date"
-            v-model="todo.date"
-            :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
-            :ranges="false"
-            opens="right"
-            :single-date-picker="true"
-            :date-format="disabledDates"
-            :autoApply="true"
-            @update="updateDate(todo.id)">
-          </date-range-picker>
-        </li>
-      </ul>
-    </section>
-    <button class="modal-trigger" v-b-modal.modal-add-task>
-      <b-icon icon="plus-circle" class="modal-trigger-icon"></b-icon>
-    </button>
-    </div>
-    <!-- mobile -->
-    <b-modal id="modal-add-task" title="Agregar Tarea">
+    <div class="main-content">
+      <div class="wrapper-list">
+        <div class="tabs-filter">
+          <button 
+            @click="filterBy = 0"
+            :class="filterBy === 0 ? 'active' : ''">Todas</button>
+          <button 
+            @click="filterBy = 1"
+            :class="filterBy === 1 ? 'active' : ''">Completas</button>
+          <button 
+            @click="filterBy = 2"
+            :class="filterBy === 2 ? 'active' : ''">Pendientes</button>
+        </div>
+        <section>
+          <ul class="todo-list">
+            <li 
+              v-for="todo in filteredtodos"
+              :key="todo.id"
+              :class="{completed: todo.completed, editing: todo == editedTodo && isGoingToEdit}">
+              <div class="task-wrapper">
+                <input class="toggle" type="checkbox" v-model="todo.completed" @change="checkboxOnChange()">
+                <div class="text-wrapper">
+                  <label>{{ todo.title }}</label>
+                  <span> {{formatToDatePicker(todo.date.startDate)}} </span>
+                </div>
+                <div class="buttons-wrapper">
+                  <button class="edit" @click="editTodo(todo)">
+                    <b-icon icon="pencil-square"></b-icon>
+                  </button>
+                  <button 
+                    class="destroy"
+                    @click="removeTodo(todo)">
+                    <b-icon icon="dash-circle"></b-icon>
+                  </button>
+                </div>
+              </div>
+              <input class="update-title" type="text"
+                v-model="todo.title">
+              <date-range-picker
+                class="update-date"
+                v-model="todo.date"
+                :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
+                :ranges="false"
+                opens="right"
+                :single-date-picker="true"
+                :date-format="disabledDates"
+                :autoApply="true"
+                @update="updateDate(todo.id)">
+              </date-range-picker>
+            </li>
+          </ul>
+        </section>
+        <button class="modal-trigger" v-b-modal.modal-add-task>
+          <b-icon icon="plus-circle" class="modal-trigger-icon"></b-icon>
+        </button>
+      </div>
+      <!-- mobile -->
+      <b-modal id="modal-add-task" title="Agregar Tarea">
+        <AddTask
+          class="add-task"
+          @AddTask="updateTask($event)">
+        </AddTask>
+      </b-modal>
+      <!-- desktop -->
       <AddTask
         class="add-task"
         @AddTask="updateTask($event)">
       </AddTask>
-    </b-modal>
-    <!-- desktop -->
-    <AddTask
-      class="add-task"
-      @AddTask="updateTask($event)">
-    </AddTask>
+    </div>
+    <footer>
+      <div>
+        <div class="links">
+          <a href="#">Inicio</a>
+          <a href="#">Acerca de nosotros</a>
+          <a href="#">Historia</a>
+          <a href="#">Contacto</a>
+        </div>
+        <div class="social">
+          <img src="@/assets/images/linkedin.svg" alt="">
+          <img src="@/assets/images/group-24.svg" alt="">
+          <img src="@/assets/images/group-25.svg" alt="">
+          <img src="@/assets/images/group-22.svg" alt="">
+          <img src="@/assets/images/group-26.svg" alt="">
+        </div>
+      </div>
+      <img src="@/assets/images/tennisBall.svg" alt="">
+    </footer>
   </div>
 </template>
 
@@ -182,37 +202,48 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 #app{
   min-height: 100vh;
-  display: flex;
-  input{
-    padding: 0 16px;
-  }
-  .modal-trigger{
+  header{
     display: flex;
-    @media(min-width: 992px){
-      display: none;
-    }
-    position: absolute;
-    right: 16px;
-    bottom: 32px;
-
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 0;
-    background-color: #2F80ED;
-    font-size: 32px;
-    color: #fff;
-    >.modal-trigger-icon{
+    height: 200px;
+    background-color: #303034;
+    margin-bottom: 32px;
+    h1{
       margin: auto;
+      color: #fff;
     }
   }
-  .wrapper-list{
-    border: 1px solid #000;
-    width: 100%;
-    @media(min-width: 992px){
-      width: 600px;
+  .main-content{
+    display: flex;
+    margin: 0 16px;
+    input{
+     padding: 0 16px;
     }
-    header{
+    .modal-trigger{
+      display: flex;
+      @media(min-width: 992px){
+        display: none;
+      }
+      position: absolute;
+      right: 16px;
+      bottom: 32px;
+
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 0;
+      background-color: #2F80ED;
+      font-size: 32px;
+      color: #fff;
+      >.modal-trigger-icon{
+        margin: auto;
+      }
+    }
+    .wrapper-list{
+      border: 1px solid #000;
+      width: 100%;
+      @media(min-width: 992px){
+        width: 600px;
+      }
       .tabs-filter{
         border: 1px solid #ccc;
         display: flex;
@@ -235,77 +266,127 @@ export default {
           }
         }
       }
-    }
-    ul{
-      list-style: none;
-      padding: 0 16px;
-      li{
-        border-bottom: 1px solid #828282;
-        padding: 8px 0;
-        position: relative;
-        .task-wrapper{
-          display: flex;
-          .toggle{
-            margin: auto 16px auto 0;
-          }
-          .text-wrapper{
-            display: flex;
-            flex-direction: column;
-            label{
-              font-family: 'Roboto';
-              font-size: 24px;
-              margin: 0;
+      section{
+        max-height: 600px;
+        overflow-y: scroll;
+        ul{
+          list-style: none;
+          padding: 0 16px;
+          li{
+            border-bottom: 1px solid #828282;
+            padding: 8px 0;
+            position: relative;
+            .task-wrapper{
+              display: flex;
+              .toggle{
+                margin: auto 16px auto 0;
+              }
+              .text-wrapper{
+                display: flex;
+                flex-direction: column;
+                label{
+                  font-family: 'Roboto';
+                  font-size: 24px;
+                  margin: 0;
+                }
+                span{
+                  font-family: 'Roboto';
+                  font-size: 16px;
+                  color: #828282;
+                }
+              }
+              .buttons-wrapper{
+                margin-left: auto;
+                display: flex;
+                button{
+                  margin: auto 0;
+                  background-color: #fff;
+                  border: none;
+                }
+              }
             }
-            span{
-              font-family: 'Roboto';
-              font-size: 16px;
-              color: #828282;
+            .update-title{
+              display: none;
+              position: absolute;
+              top: 6px;
+              left: 28px;
+            }
+            .update-date{
+              display: none;
+              position: absolute;
+              bottom: 4px;
+              left: 28px;
+            }
+            &.completed{
+              text-decoration: line-through;
+            }
+            &.editing{
+              input{
+                display: block;
+              }
+              .update-date{
+                display: inline-block;
+              }
+            }
+            &:last-child{
+              border-bottom: 0;
             }
           }
-          .buttons-wrapper{
-            margin-left: auto;
-            display: flex;
-            button{
-              margin: auto 0;
-              background-color: #fff;
-              border: none;
-            }
-          }
-        }
-        .update-title{
-          display: none;
-          position: absolute;
-          top: 6px;
-          left: 28px;
-        }
-        .update-date{
-          display: none;
-          position: absolute;
-          bottom: 4px;
-          left: 28px;
-        }
-        &.completed{
-          text-decoration: line-through;
-        }
-        &.editing{
-          input{
-            display: block;
-          }
-          .update-date{
-            display: inline-block;
-          }
-        }
-        &:last-child{
-          border-bottom: 0;
         }
       }
     }
+    .add-task{
+      display: none;
+      @media(min-width: 992px){
+        display: block;
+        margin: 32px auto auto auto;
+      }
+    }
   }
-  .add-task{
-    display: none;
+  footer{
+    display: flex;
+    margin-top: 32px;
+    padding: 32px 16px;
+    height: 203px;
+    background-color: #303034;
     @media(min-width: 992px){
-      display: block;
-      margin: 32px auto auto auto;
+      padding: 64px 63px 58px 78px;
+    }
+    >div{
+      display: flex;
+      flex-direction: column;
+      .links{
+        margin-bottom: 13px;
+        a{
+          color: #fff;
+          font-size: 13px;
+          margin: 16px;
+          letter-spacing: 1.14px;
+          line-height: 37px;
+          &:first-child{
+            margin-left: 0;
+          }
+          &:hover,
+          &:focus{
+            font-family: 'HelveticaNeue-Bold';
+          }
+        }
+      }
+      .social{
+        margin-top: auto;
+        @media(min-width: 992px){
+          margin-top: 0;
+        }
+        img{
+        margin: 0 6px;
+          &:first-child{
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    >img{
+      margin-left: auto;
     }
   }
 }
