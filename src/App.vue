@@ -39,19 +39,21 @@
                   </button>
                 </div>
               </div>
-              <input class="update-title" type="text"
+              <div class="edit-text-wrapper">
+                <input class="update-title" type="text"
                 v-model="todo.title">
-              <date-range-picker
-                class="update-date"
-                v-model="todo.date"
-                :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
-                :ranges="false"
-                opens="right"
-                :single-date-picker="true"
-                :date-format="disabledDates"
-                :autoApply="true"
-                @update="updateDate(todo.id)">
-              </date-range-picker>
+                <date-range-picker
+                  class="update-date"
+                  v-model="todo.date"
+                  :locale-data="{format: 'dd/mm/yyyy', daysOfWeek: daysOfWeekSpanish, applyLabel: 'Aplicar', cancelLabel: 'Cancelar'}"
+                  :ranges="false"
+                  opens="right"
+                  :single-date-picker="true"
+                  :date-format="disabledDates"
+                  :autoApply="true"
+                  @update="updateDate(todo.id)">
+                </date-range-picker>
+              </div>
             </li>
           </ul>
         </section>
@@ -295,25 +297,32 @@ export default {
             }
             .update-title{
               display: none;
-              position: absolute;
-              top: 6px;
-              left: 28px;
             }
             .update-date{
               display: none;
+            }
+            .edit-text-wrapper{
               position: absolute;
-              bottom: 4px;
+              bottom: 1px;
               left: 28px;
+              display: flex;
+              flex-direction: column;
             }
             &.completed{
               text-decoration: line-through;
             }
             &.editing{
+              height: 80px;
               input{
                 display: block;
               }
               .update-date{
                 display: inline-block;
+              }
+              >.task-wrapper{
+                .text-wrapper{
+                  display: none;
+                }
               }
             }
             &:last-child{

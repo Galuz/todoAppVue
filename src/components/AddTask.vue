@@ -75,6 +75,12 @@ export default {
         -webkit-box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.51);
         -moz-box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.51);
         box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.51);
+        h2{
+            display: none;
+            @media(min-width: 992px){
+                display: block;
+            }
+        }
         >div{
             display: flex;
             flex-direction: column;
