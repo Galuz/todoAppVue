@@ -174,6 +174,11 @@ export default {
     updateDate(id){
       this.todos[id].date.startDate = moment(this.todos[id].date.startDate).utc()
       this.todos[id].date.endDate = moment(this.todos[id].date.endDate).utc()
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+      this.editedTodo = null
+      this.isGoingToEdit = false
+      this.orderDates()
     },
     formatToDatePicker(date) {
       return moment(date).format('DD/MM/YYYY')
@@ -215,7 +220,7 @@ export default {
 #app{
   display: flex;
   flex-direction: column;
-  
+
   position: relative;
   min-height: 100vh;
   header{
@@ -231,7 +236,7 @@ export default {
   }
   .main-content{
     display: flex;
-    margin: 0 16px;
+    margin: 0 16px 32px 16px;
     input{
      padding: 0 16px;
     }
