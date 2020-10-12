@@ -57,11 +57,13 @@
         </section>
       </div>
       <!-- mobile -->
-      <b-modal id="modal-add-task" title="Agregar Tarea">
+      <b-modal ref="modal-add-task" id="modal-add-task" hide-footer title="Agregar Tarea">
         <AddTask
           class="add-task"
           @AddTask="updateTask($event)">
         </AddTask>
+        <hr>
+        <b-button class="btn-exitmodal ml-auto" variant="outline-secondary" block @click="hideModal">Salir</b-button>
       </b-modal>
       <!-- desktop -->
       <AddTask
@@ -143,7 +145,7 @@ export default {
   methods: {
     addTodo(){
       let expirationDate = moment(this.datePicker.startDate).utc()
-      this.todos.push({title: this.newTodo, completed: 'false', id: this.todos.length, date: {startDate: expirationDate, endDate: expirationDate}})
+      this.todos.push({title: this.newTodo, completed: false, id: this.todos.length, date: {startDate: expirationDate, endDate: expirationDate}})
       this.newTodo = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
       this.orderDates()
@@ -159,7 +161,6 @@ export default {
       if(!this.isGoingToEdit){
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
         this.orderDates()
-        console.log("guardado")
       }
     },
     updateDate(id){
@@ -193,7 +194,10 @@ export default {
       this.newTodo = task.newTodo
       this.datePicker = task.datePicker
       this.addTodo()
-    }
+    },
+    hideModal() {
+      this.$refs['modal-add-task'].hide()
+    },
   }
 }
 </script>
