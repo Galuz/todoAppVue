@@ -221,8 +221,10 @@ export default {
      padding: 0 16px;
     }
     .wrapper-list{
-      border: 1px solid #000;
+      border: 1px solid #838383;
+      border-radius: 4px;
       width: 100%;
+      box-shadow: 0px 7px 5px 0px rgba(0,0,0,0.51);
       @media(min-width: 992px){
         width: 600px;
       }
@@ -321,7 +323,7 @@ export default {
       display: none;
       @media(min-width: 992px){
         display: block;
-        margin: 32px auto auto auto;
+        margin: 0 auto auto auto;
       }
     }
   }
