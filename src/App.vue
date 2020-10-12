@@ -213,6 +213,9 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 #app{
+  display: flex;
+  flex-direction: column;
+  
   position: relative;
   min-height: 100vh;
   header{
@@ -368,7 +371,7 @@ export default {
   }
   footer{
     display: flex;
-    margin-top: 32px;
+    margin-top: auto;
     padding: 32px 16px;
     height: 203px;
     background-color: #303034;
