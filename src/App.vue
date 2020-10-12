@@ -29,11 +29,17 @@
                   <span> {{formatToDatePicker(todo.date.startDate)}} </span>
                 </div>
                 <div class="buttons-wrapper">
-                  <button class="edit" @click="editTodo(todo)">
+                  <button 
+                    class="edit" 
+                    v-b-tooltip.hover
+                    title="Para guardar la edición vuelve a presionar este botón" 
+                    @click="editTodo(todo)">
                     <b-icon icon="pencil-square"></b-icon>
                   </button>
                   <button 
                     class="destroy"
+                    v-b-tooltip.hover
+                    title="Para eliminar la tarea presiona este botón" 
                     @click="removeTodo(todo)">
                     <b-icon icon="dash-circle"></b-icon>
                   </button>
