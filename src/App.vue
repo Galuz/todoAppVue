@@ -55,9 +55,6 @@
             </li>
           </ul>
         </section>
-        <button class="modal-trigger" v-b-modal.modal-add-task>
-          <b-icon icon="plus-circle" class="modal-trigger-icon"></b-icon>
-        </button>
       </div>
       <!-- mobile -->
       <b-modal id="modal-add-task" title="Agregar Tarea">
@@ -72,6 +69,9 @@
         @AddTask="updateTask($event)">
       </AddTask>
     </div>
+    <button class="modal-trigger" v-b-modal.modal-add-task>
+      <b-icon icon="plus-circle" class="modal-trigger-icon"></b-icon>
+    </button>
     <footer>
       <div>
         <div class="links">
@@ -201,12 +201,14 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 #app{
+  position: relative;
   min-height: 100vh;
   header{
     display: flex;
     height: 200px;
     background-color: #303034;
     margin-bottom: 32px;
+    padding: 16px;
     h1{
       margin: auto;
       color: #fff;
@@ -217,26 +219,6 @@ export default {
     margin: 0 16px;
     input{
      padding: 0 16px;
-    }
-    .modal-trigger{
-      display: flex;
-      @media(min-width: 992px){
-        display: none;
-      }
-      position: absolute;
-      right: 16px;
-      bottom: 32px;
-
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 0;
-      background-color: #2F80ED;
-      font-size: 32px;
-      color: #fff;
-      >.modal-trigger-icon{
-        margin: auto;
-      }
     }
     .wrapper-list{
       border: 1px solid #000;
@@ -341,6 +323,26 @@ export default {
         display: block;
         margin: 32px auto auto auto;
       }
+    }
+  }
+  .modal-trigger{
+    display: flex;
+    @media(min-width: 992px){
+      display: none;
+    }
+    position: absolute;
+    right: 16px;
+    bottom: 180px;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 0;
+    background-color: #2F80ED;
+    font-size: 32px;
+    color: #fff;
+    >.modal-trigger-icon{
+      margin: auto;
     }
   }
   footer{
