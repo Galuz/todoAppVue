@@ -48,6 +48,7 @@
             opens="right"
             :single-date-picker="true"
             :date-format="disabledDates"
+            :autoApply="true"
             @update="updateDate(todo.id)">
           </date-range-picker>
         </li>
@@ -304,6 +305,7 @@ export default {
     display: none;
     @media(min-width: 992px){
       display: block;
+      margin: 32px auto auto auto;
     }
   }
 }
