@@ -57,6 +57,7 @@
                   :single-date-picker="true"
                   :date-format="disabledDates"
                   :autoApply="true"
+                  :append-to-body="true"
                   @update="updateDate(todo.id)">
                 </date-range-picker>
               </div>
